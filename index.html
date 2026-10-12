@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JasonJavier.com — Rise &amp; Study</title>
+<style>
+  :root{
+    --bg:#0b1026; --bg2:#131a3a; --card:#161d42; --card2:#1c2452;
+    --ink:#eef1ff; --muted:#9aa3d0; --gold:#ffc86b; --gold2:#ff9f43;
+    --sky:#63a4ff; --green:#42e8a0; --red:#ff6b7a;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:linear-gradient(160deg,var(--bg) 0%,var(--bg2) 60%,#0e1430 100%);color:var(--ink);min-height:100vh}
+  .wrap{max-width:1000px;margin:0 auto;padding:24px 18px 80px}
+  a{color:var(--sky)}
+  /* HERO */
+  .hero{text-align:center;padding:44px 16px 30px;border-radius:22px;background:radial-gradient(1200px 400px at 50% -10%,rgba(99,164,255,.25),transparent),radial-gradient(800px 300px at 80% 0%,rgba(255,200,107,.12),transparent);border:1px solid rgba(255,255,255,.08)}
+  .hero h1{font-size:2.6rem;letter-spacing:.5px;background:linear-gradient(90deg,var(--gold),#fff,var(--sky));-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800}
+  .hero .tag{color:var(--muted);margin-top:6px;font-size:1rem}
+  #clock{font-size:2.4rem;font-weight:700;font-variant-numeric:tabular-nums;margin-top:18px;color:var(--gold)}
+  #dateLine{color:var(--muted);font-size:1rem;margin-top:4px}
+  #greeting{margin-top:8px;font-size:1.1rem}
+  .duo{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:26px}
+  @media(max-width:700px){.duo{grid-template-columns:1fr}}
+  .verse,.quote{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:16px;padding:20px;text-align:left}
+  .verse .k{color:var(--gold);font-size:.72rem;letter-spacing:2px;text-transform:uppercase}
+  .quote .k{color:var(--sky);font-size:.72rem;letter-spacing:2px;text-transform:uppercase}
+  .verse p{margin-top:8px;font-size:1.02rem;line-height:1.55;font-style:italic}
+  .quote p{margin-top:8px;font-size:1.02rem;line-height:1.55}
+  .src{display:block;margin-top:8px;color:var(--muted);font-size:.85rem}
+  /* SECTIONS */
+  h2.sec{margin:48px 0 6px;font-size:1.6rem;font-weight:800;display:flex;align-items:center;gap:10px}
+  h2.sec .em{font-size:1.4rem}
+  .sub{color:var(--muted);margin-bottom:18px;font-size:.95rem}
+  .card{background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:22px}
+  /* TIMER */
+  .quest-head{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+  .big-timer{font-size:2.6rem;font-weight:800;font-variant-numeric:tabular-nums;color:var(--gold)}
+  .phase{padding:4px 14px;border-radius:99px;font-size:.8rem;font-weight:700;letter-spacing:1px}
+  .phase.study{background:rgba(66,232,160,.15);color:var(--green)}
+  .phase.break{background:rgba(255,159,67,.15);color:var(--gold2)}
+  .phase.idle{background:rgba(154,163,208,.15);color:var(--muted)}
+  button{cursor:pointer;border:none;border-radius:12px;padding:12px 22px;font-size:1rem;font-weight:700;font-family:inherit;transition:transform .1s,box-shadow .2s}
+  button:active{transform:scale(.97)}
+  .btn-main{background:linear-gradient(90deg,var(--gold),var(--gold2));color:#1a1200;box-shadow:0 6px 24px rgba(255,159,67,.35)}
+  .btn-ghost{background:rgba(255,255,255,.07);color:var(--ink);border:1px solid rgba(255,255,255,.12)}
+  .progress{height:10px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden;margin-top:14px}
+  .progress .fill{height:100%;width:0%;background:linear-gradient(90deg,var(--sky),var(--gold));transition:width .5s}
+  .progress-note{color:var(--muted);font-size:.8rem;margin-top:6px}
+  /* HOURS */
+  .hours{display:grid;gap:12px;margin-top:18px}
+  .hour{display:grid;grid-template-columns:52px 1fr auto;gap:14px;align-items:start;background:var(--card);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:16px;transition:border-color .3s,box-shadow .3s}
+  .hour.active{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold),0 8px 30px rgba(255,200,107,.15)}
+  .hour.done{opacity:.55}
+  .hour .n{font-size:1.5rem;font-weight:800;color:var(--sky);line-height:1}
+  .hour .n small{display:block;color:var(--muted);font-size:.6rem;letter-spacing:1px;font-weight:600}
+  .hour h3{font-size:1.05rem;margin-bottom:6px}
+  .hour .story{color:var(--muted);font-size:.9rem;line-height:1.5}
+  .hour .action{display:inline-block;margin-top:8px;font-size:.8rem;font-weight:700;color:var(--gold);letter-spacing:.5px}
+  .hour .tick{width:26px;height:26px;border-radius:8px;border:2px solid rgba(255,255,255,.2);background:transparent;font-size:.9rem;color:transparent;padding:0;display:flex;align-items:center;justify-content:center}
+  .hour .tick.on{background:var(--green);border-color:var(--green);color:#04251a}
+  /* BIBLE + ADVENTURE */
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:800px){.split{grid-template-columns:1fr}}
+  .passage{font-style:italic;line-height:1.6;color:#dfe4ff;padding:14px;background:rgba(99,164,255,.07);border-left:3px solid var(--gold);border-radius:10px;margin:12px 0}
+  .ref{color:var(--gold);font-size:.85rem;font-weight:700}
+  .reflect{line-height:1.65;font-size:.95rem}
+  .pray{margin-top:14px;font-size:.9rem;color:var(--green);line-height:1.5}
+  .pray b{letter-spacing:1px;font-size:.72rem;color:var(--muted)}
+  .place-img{font-size:3rem;line-height:1}
+  .fact{margin-top:10px;font-size:.95rem;line-height:1.65}
+  .story-tell{margin-top:12px;font-size:.92rem;line-height:1.65;color:#cdd3f5}
+  .badge{display:inline-block;background:rgba(255,200,107,.14);color:var(--gold);font-size:.72rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border-radius:99px}
+  .more{margin-top:10px;font-size:.8rem;color:var(--muted)}
+  footer{margin-top:60px;text-align:center;color:var(--muted);font-size:.85rem;line-height:1.8;border-top:1px solid rgba(255,255,255,.08);padding-top:24px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <h1>JasonJavier.com</h1>
+    <p class="tag">Rise early. Study deep. Walk with God. Explore the Earth.</p>
+    <div id="clock">00:00:00</div>
+    <div id="dateLine"></div>
+    <div id="greeting"></div>
+    <div class="duo">
+      <div class="verse">
+        <span class="k">✝ Today's Scripture</span>
+        <p id="verseText"></p>
+        <span class="src" id="verseSrc"></span>
+      </div>
+      <div class="quote">
+        <span class="k">🔥 Today's Fuel</span>
+        <p id="quoteText"></p>
+        <span class="src" id="quoteSrc"></span>
+      </div>
+    </div>
+  </header>
+
+  <h2 class="sec"><span class="em">⚔️</span> The 8-Hour Quest — One Legendary Study Day</h2>
+  <p class="sub">Eight hours, eight chapters of an adventure. Each hour of deep study is matched with a moment from the greatest stories ever written — because every hero who won a war first survived a classroom of pain.</p>
+
+  <div class="card">
+    <div class="quest-head">
+      <div>
+        <div class="big-timer" id="qTimer">00:00:00</div>
+        <span class="phase idle" id="qPhase">READY</span>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn-main" id="qStart">Begin the Quest</button>
+        <button class="btn-ghost" id="qReset">Reset</button>
+      </div>
+    </div>
+    <div class="progress"><div class="fill" id="qFill"></div></div>
+    <p class="progress-note" id="qNote">50 minutes of battle, 10 minutes of rest, 8 times. The timer knows where you are.</p>
+  </div>
+
+  <div class="hours" id="hourList"></div>
+
+  <h2 class="sec"><span class="em">📖</span> Daily Bread — Short Bible Study</h2>
+  <p class="sub">A different study every day of the week. Read the passage, sit with the reflection, pray the prayer, then go be dangerous.</p>
+  <div class="split">
+    <div class="card" id="bibleCard"></div>
+    <div class="card">
+      <span class="badge">✝ Daily Bread</span>
+      <div class="fact" style="margin-top:14px"><b>How to use this study:</b></div>
+      <div class="fact">1. <b>Read</b> — open the passage in your Bible, not just on this page. The real pages change you.</div>
+      <div class="fact">2. <b>Reflect</b> — ask: what is God showing me about Himself, and about me?</div>
+      <div class="fact">3. <b>Respond</b> — turn the reflection into one action before sunset.</div>
+      <div class="fact">4. <b>Pray</b> — out loud if you can. Prayer is the breath of the study.</div>
+      <div class="passage" style="margin-top:16px">"Your word is a lamp to my feet and a light to my path."<br><span class="ref">Psalm 119:105</span></div>
+    </div>
+  </div>
+
+  <h2 class="sec"><span class="em">🌍</span> The Explorer's Log — A Place on Earth &amp; Its Story</h2>
+  <p class="sub">Every day: one wild corner of this planet, one true story from it. The Earth is a book; most people never open it.</p>
+  <div class="card" id="placeCard"></div>
+
+  <footer>
+    <b>JasonJavier.com</b> — built for one purpose: an 8-hour day that builds a man.<br>
+    “Whatever you do, work at it with all your heart, as working for the Lord.” — Colossians 3:23<br>
+    <span id="footDate"></span>
+  </footer>
+</div>
+
+<script>
+/* ============ CLOCK & DATE ============ */
+function tick(){
+  const n=new Date();
+  document.getElementById('clock').textContent=n.toLocaleTimeString();
+  document.getElementById('dateLine').textContent=n.toLocaleDateString(undefined,{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  const h=n.getHours();
+  document.getElementById('greeting').textContent=h<5?'🌙 Still up? Warriors sleep. Go rest.':h<12?'☀️ Good morning. The day is yours to conquer.':h<17?'🌤️ Good afternoon. Finish the quest strong.':'🌙 Good evening. Review what you learned today.';
+  document.getElementById('footDate').textContent='Loaded '+n.toLocaleDateString();
+}
+setInterval(tick,1000);tick();
+
+/* ============ ROTATE BY DAY ============ */
+const doy=Math.floor((new Date()-new Date(new Date().getFullYear(),0,0))/864e5);
+const pick=a=>a[doy%a.length];
+
+const verses=[
+ ["Thy word is a lamp unto my feet, and a light unto my path.","Psalm 119:105"],
+ ["I can do all things through Christ which strengtheneth me.","Philippians 4:13"],
+ ["Have not I commanded thee? Be strong and of a good courage; be not afraid... for the Lord thy God is with thee whithersoever thou goest.","Joshua 1:9"],
+ ["Commit thy works unto the Lord, and thy thoughts shall be established.","Proverbs 16:3"],
+ ["But they that wait upon the Lord shall renew their strength; they shall mount up with wings as eagles.","Isaiah 40:31"],
+ ["For God hath not given us the spirit of fear; but of power, and of love, and of a sound mind.","2 Timothy 1:7"],
+ ["Trust in the Lord with all thine heart; and lean not unto thine own understanding.","Proverbs 3:5"],
+ ["The Lord is my light and my salvation; whom shall I fear?","Psalm 27:1"],
+ ["But seek ye first the kingdom of God, and his righteousness; and all these things shall be added unto you.","Matthew 6:33"],
+ ["God is our refuge and strength, a very present help in trouble.","Psalm 46:1"],
+ ["And whatsoever ye do, do it heartily, as to the Lord, and not unto men.","Colossians 3:23"],
+ ["For I know the thoughts that I think toward you... thoughts of peace, and not of evil, to give you an expected end.","Jeremiah 29:11"]
+];
+const quotes=[
+ ["It always seems impossible until it's done.","Nelson Mandela"],
+ ["It does not do to dwell on dreams and forget to live.","Albus Dumbledore — Harry Potter"],
+ ["Not all those who wander are lost.","J.R.R. Tolkien"],
+ ["You have brains in your head. You have feet in your shoes. You can steer yourself any direction you choose.","Dr. Seuss"],
+ ["The best way out is always through.","Robert Frost"],
+ ["Whether you think you can or you think you can't, you're right.","Henry Ford"],
+ ["Do not pray for an easy life; pray for the strength to endure a difficult one.","Bruce Lee"],
+ ["A ship in harbor is safe, but that is not what ships are built for.","John A. Shedd"],
+ ["The cave you fear to enter holds the treasure you seek.","Joseph Campbell"],
+ ["It is our choices that show what we truly are, far more than our abilities.","Albus Dumbledore — Harry Potter"],
+ ["Little by little, one travels far.","J.R.R. Tolkien"],
+ ["When you want to succeed as bad as you want to breathe, then you'll be successful.","Eric Thomas"]
+];
+const v=pick(verses),q=pick(quotes);
+document.getElementById('verseText').textContent='"'+v[0]+'"';
+document.getElementById('verseSrc').textContent='— '+v[1];
+document.getElementById('quoteText').textContent='"'+q[0]+'"';
+document.getElementById('quoteSrc').textContent='— '+q[1];
+
+/* ============ THE 8-HOUR QUEST ============ */
+const hours=[
+ {t:"The Call to Adventure",book:"Harry Potter & the Sorcerer's Stone",story:"A boy sleeping in a cupboard under the stairs gets a letter that changes everything. Before Hogwarts, before magic, there was only a letter — and the courage to open it. Your letter is on the desk in front of you.",action:"Start with your HARDEST subject. Open the book. Hour one is the gate."},
+ {t:"Meet the Mentor",book:"The Hobbit / Lord of the Rings",story:"Gandalf does not carry Bilbo up the mountain — he just makes Bilbo believe the mountain can be climbed. A mentor's job is not to lift you; it's to show you you're already heavy enough.",action:"Write today's 3 goals. Specific. Numbered. On paper."},
+ {t:"Crossing the Threshold",book:"Lord of the Rings",story:"Frodo leaves the Shire knowing the road will not take him home the same man. 'It's a dangerous business, going out your door.' Every deep-work session is a small version of that door.",action:"Phone away. Timer on. 50 minutes, zero distractions."},
+ {t:"The Cave of Trials",book:"The Hobbit",story:"Bilbo walks into a dragon's cave armed with nothing but nerve and a stolen cup. He was never the strongest in the mountain — just the one who went in anyway.",action:"Attack the problem you keep avoiding. That one. Right now."},
+ {t:"The Ordeal",book:"Harry Potter & the Goblet of Fire",story:"The maze was designed to break the champions. What made Harry different was not talent — it was refusing to leave Cedric behind. Grace under pressure is a study skill too.",action:"Do practice problems / past papers. Test yourself like it's real."},
+ {t:"The Reward",book:"The Lion, the Witch & the Wardrobe",story:"After the longest winter, Aslan moves. The reward comes after the ordeal, never before it — and when it comes, everything frozen in you starts to melt.",action:"Review what you just learned. Say it out loud like you're teaching it."},
+ {t:"The Road Back",book:"The Odyssey",story:"Odysseus wins the war, but the victory is only half the story — the journey home takes longer and costs more. Consolidation is the journey home of studying.",action:"Rebuild your notes from memory. Fill the gaps you find."},
+ {t:"Return With the Elixir",book:"The Alchemist",story:"The boy travels the whole world hunting treasure, and finds it buried back where he started — but only the journey made him able to see it. Knowledge works the same way.",action:"Write the ONE big takeaway of today. Then close the books with honor."}
+];
+const hourList=document.getElementById('hourList');
+let checked=[];
+try{checked=JSON.parse(localStorage.getItem('jq-checked')||'[]')}catch(e){checked=[]}
+hours.forEach((h,i)=>{
+  const d=document.createElement('div');
+  d.className='hour'+(checked.includes(i)?' done':'');
+  d.innerHTML=`<div class="n">${i+1}<small>HOUR</small></div>
+    <div><h3>${h.t} <span style="color:var(--muted);font-weight:400;font-size:.8rem">— ${h.book}</span></h3>
+    <div class="story">${h.story}</div>
+    <div class="action">▸ ${h.action}</div></div>
+    <button class="tick${checked.includes(i)?' on':''}" data-i="${i}">✓</button>`;
+  hourList.appendChild(d);
+});
+hourList.querySelectorAll('.tick').forEach(b=>b.onclick=()=>{
+  const i=+b.dataset.i;
+  if(checked.includes(i)){checked=checked.filter(x=>x!==i);b.classList.remove('on');b.parentElement.classList.remove('done')}
+  else{checked.push(i);b.classList.add('on');b.parentElement.classList.add('done')}
+  try{localStorage.setItem('jq-checked',JSON.stringify(checked))}catch(e){}
+});
+
+/* quest timer: 8 × (50min study + 10min break) */
+const WORK=50*60,BRK=10*60,FULL=8*(WORK+BRK);
+let qStart=null,qInt=null;
+function qRender(){
+  if(!qStart)return;
+  const el=(Date.now()-qStart)/1000;
+  const inCycle=el%(WORK+BRK),studying=inCycle<WORK;
+  const hourIdx=Math.min(7,Math.floor(el/(WORK+BRK)));
+  document.querySelectorAll('.hour').forEach((h,i)=>h.classList.toggle('active',i===hourIdx&&el<FULL));
+  const cycLeft=studying?WORK-inCycle:WORK+BRK-inCycle;
+  const hh=String(Math.floor(el/3600)).padStart(2,'0'),mm=String(Math.floor(el%3600/60)).padStart(2,'0'),ss=String(Math.floor(el%60)).padStart(2,'0');
+  document.getElementById('qTimer').textContent=hh+':'+mm+':'+ss;
+  const ph=document.getElementById('qPhase');
+  ph.className='phase '+(studying?'study':'break');
+  ph.textContent=studying?('HOUR '+(hourIdx+1)+' — STUDY · '+Math.ceil(cycLeft/60)+'m left'):('BREAK · '+Math.ceil(cycLeft/60)+'m · stretch, water, breathe');
+  document.getElementById('qFill').style.width=Math.min(100,el/FULL*100)+'%';
+  if(el>=FULL){
+    clearInterval(qInt);qStart=null;
+    document.getElementById('qPhase').textContent='QUEST COMPLETE 🏆';
+    document.getElementById('qNote').textContent='Eight hours. A legendary day. Do not check the last hour until you truly finish it.';
+  }else{
+    document.getElementById('qNote').textContent='On hour '+(hourIdx+1)+' of 8: '+hours[hourIdx].t;
+  }
+}
+document.getElementById('qStart').onclick=()=>{
+  if(qInt){clearInterval(qInt);qInt=null;document.getElementById('qPhase').textContent='PAUSED';return}
+  if(!qStart)qStart=Date.now();
+  qInt=setInterval(qRender,1000);qRender();
+};
+document.getElementById('qReset').onclick=()=>{clearInterval(qInt);qInt=null;qStart=null;document.getElementById('qTimer').textContent='00:00:00';document.getElementById('qFill').style.width='0%';document.getElementById('qPhase').textContent='READY';document.getElementById('qPhase').className='phase idle';document.querySelectorAll('.hour').forEach(h=>h.classList.remove('active'));document.getElementById('qNote').textContent='50 minutes of battle, 10 minutes of rest, 8 times.'};
+
+/* ============ BIBLE STUDY OF THE DAY ============ */
+const studies=[
+ {ref:"1 Samuel 17 — David and Goliath",pass:"David said: 'The Lord that delivered me out of the paw of the lion... he will deliver me out of the hand of this Philistine.'",reflect:"David's confidence was not in the sling — it was nine previous victories nobody had celebrated. Every hard chapter you study alone in private is a lion and a bear. Goliath is just the public exam that reveals what private battles already built. Stop fearing the giant; count the lions.",pray:"Father, you have already given me lions and bears. Give me David's eyes today — let me see the giant as small. Amen."},
+ {ref:"Genesis 37–41 — Joseph in the Pit",pass:"'But the Lord was with Joseph... and that which he did, the Lord made it to prosper.'",reflect:"Thirteen years passed between the pit and the palace, and none of them were wasted — even prison became a leadership school. Waiting is not losing. If God can promote Joseph from a dungeon in one afternoon, your timeline is never broken, only delayed for training.",pray:"Lord, teach me to flourish in the pit. Make my waiting room a classroom. Amen."},
+ {ref:"Nehemiah 2–6 — Rebuilding the Wall",pass:"Nehemiah answered his mockers: 'I am doing a great work, so that I cannot come down.'",reflect:"Nehemiah rebuilt Jerusalem's wall in 52 days while influential people sent him invitations, threats and rumors specifically designed to pull him off the scaffolding. Distraction is not innocent — it is an invitation to come down from your wall. Great work requires the strength to say 'I cannot come down.'",pray:"Father, nail my hands to my work today. Silence every voice that calls me down from the wall. Amen."},
+ {ref:"Esther 4 — For Such a Time as This",pass:"Mordecai said: 'Who knoweth whether thou art come to the kingdom for such a time as this?'",reflect:"Esther had one shot, and the math was terrifying: approach the king uninvited and maybe die, or stay safe and watch her people destroyed. She chose courage, but notice the order of her decision — three days of prayer and fasting before one word to the king. Her boldness was born in the prayer room.",pray:"God, show me why You placed me here, in Rwanda, in this year, in this exact season. Make my placement purposeful. Amen."},
+ {ref:"Daniel 1 & 6 — The Discipline of Daniel",pass:"'Daniel purposed in his heart that he would not defile himself.' ... He kneeled and prayed three times a day, as he did aforetime.",reflect:"Daniel was top of his class in Babylon because of a decision made in advance — 'he purposed in his heart' before the pressure ever arrived. And when praying became illegal, his habit was so established that changing the law couldn't change him. Consistency is not built during the test; it's built before it.",pray:"Lord, let me purpose in my heart today, before the temptation, before the exam, before the crowd. Amen."},
+ {ref:"Matthew 14 — Peter Walking on Water",pass:"Peter said, 'Lord, if it be thou, bid me come to thee on the water.' ... And when he saw the wind boisterous, he was afraid.",reflect:"Eleven disciples stayed perfectly safe and perfectly dry in the boat; one got out and walked on water, even if he also sank. And when Peter sank, Jesus was close enough to grab him in one second. The worst case of stepping out is still closer to Jesus than the safest seat in the boat.",pray:"Jesus, call me out of the boat today. And when my faith shakes, be within arm's reach — as You always are. Amen."},
+ {ref:"2 Timothy 4:7 — Finishing the Race",pass:"'I have fought a good fight, I have finished my course, I have kept the faith.'",reflect:"Paul wrote this in a prison cell, shortly before his execution — and called his life a victory, not because everything went well, but because he finished. Excellence is not a perfect record; it's an unbroken finish. Study like a man who intends to complete the course.",pray:"Father, make me a finisher. Let today's work be worthy of the words 'I kept the faith.' Amen."}
+];
+const s=pick(studies);
+document.getElementById('bibleCard').innerHTML=`
+  <span class="badge">📖 ${s.ref}</span>
+  <div class="passage">${s.pass}</div>
+  <div class="reflect">${s.reflect}</div>
+  <div class="pray"><b>PRAYER</b><br>${s.pray}</div>`;
+
+/* ============ PLACE OF THE DAY ============ */
+const places=[
+ {e:"🌋",n:"Mount Nyiragongo, DR Congo",where:"~15 km from Goma — a few hours from Rwanda's border",fact:"One of Earth's very few permanent lava lakes — the largest on the planet, roughly 250 meters of molten rock churning inside a 2-km-wide crater.",story:"In 1977 the crater walls cracked and the lake drained in under an hour; lava flows reached speeds of up to 100 km/h and destroyed villages overnight. In 2002 it erupted again and sent a river of lava straight through downtown Goma, splitting the city in two and leaving 120,000 people homeless. Yet Goma rebuilt on the same black rock — and today, hikers climb Nyiragongo at night with Virunga park rangers to watch the world's most dangerous campfire glow orange against the stars. You live closer to one of the planet's rarest spectacles than almost anyone reading this."},
+ {e:"🐉",n:"Socotra, Yemen",where:"Island in the Indian Ocean, ~240 km off the Horn of Africa",fact:"A third of its plants exist nowhere else on Earth — scientists call it the 'Galápagos of the Indian Ocean.' Its dragon's blood trees look like giant umbrellas bleeding red sap.",story:"Socotra broke off from Africa so long ago that its species evolved in isolation for millions of years, as if on another planet. Ancient Egyptians, Greeks and Romans all sailed for its dragon's blood resin — believed to be the blood of dragons, used to heal wounds, dye violins and embalm pharaohs. There are legends that the forbidding mountains hid the original Garden of Eden. To this day you can stand under a forest of trees that grow nowhere else in the universe."},
+ {e:"🔥",n:"The Danakil Depression, Ethiopia",where:"Afar Triangle, East Africa's Rift Valley",fact:"One of the hottest inhabited places on Earth — over 45°C in shade, with sulfur springs in neon yellow and salt caravans crossing land below sea level.",story:"In a landscape that scientists describe as looking like Jupiter, the Afar people have mined salt blocks for centuries, cutting them by hand and walking them out by camel just as their great-grandparents did. It was here, in the same Afar region, that the 3.2-million-year-old skeleton 'Lucy' was discovered — making the hottest, most hostile place in East Africa one of the cradles of humanity. The planet literally tore itself open here, and life walked out."},
+ {e:"⛰️",n:"Mount Roraima, Venezuela",where:"The triple border of Venezuela, Brazil and Guyana",fact:"A table mountain 2,800 m high with cliffs on all sides — its flat top has been isolated for ~2 billion years and holds species found nowhere else.",story:"Roraima inspired Sir Arthur Conan Doyle's 'The Lost World' — explorers read his novel and went looking for dinosaurs on its plateau. They didn't find dinosaurs; they found a landscape of pink quartz valleys, black lagoons and tiny frogs that stay frozen for months. Local Pemon legend says Roraima is the stump of a mighty tree that once held all the fruits of the world, felled by a trickster's greed — and its top, forever misted in clouds, is still called the place where the gods live."},
+ {e:"❄️",n:"Lake Baikal, Siberia, Russia",where:"Southern Siberia",fact:"The world's deepest lake (1,642 m) and oldest (25 million years) — it holds one-fifth of all unfrozen fresh water on the planet.",story:"In winter it freezes so hard that trucks drive across its ice, and the ice is so clear you can see 40 meters down to sleeping fish. Buryat shamans call its islands sacred and say its deepest point, at 1,642 m, has no recorded depth measurement by humans — the lake keeps its own secrets. A legend says a giant dragon lives under it, Baikal, whose breath keeps the lake's water alive even when everything around it turns to stone."},
+ {e:"♨️",n:"Shanay-timpishka — The Boiling River, Peru",where:"Deep in the Amazon rainforest, near Pucallpa",fact:"A river that runs at up to 100°C — hot enough to cook small animals that fall in — with no volcano anywhere near it.",story:"As a boy in Peru, Andrés Ruzo heard his grandfather's legend of a river that boils. As a geoscientist he was told it was impossible — rivers need volcanoes, and the nearest was hundreds of kilometers away. He went anyway, guided by a local healer (a 'shaman') who knew the way, and found it: four miles of steaming water, sacred to the locals, who believe its heat is the breath of the mother-spirit Yacu-Mama. Science still can't fully explain it. The lesson of the river: sometimes the legend is a map."},
+ {e:"🌊",n:"The Mariana Trench, Challenger Deep",where:"Western Pacific Ocean — the deepest point on Earth",fact:"Nearly 11 km down — if Everest were dropped in, its peak would still be 2 km underwater. Pressure there is 1,000× the surface.",story:"In 1960, Jacques Piccard and Don Walsh climbed into a steel sphere called Trieste and descended for five hours into total darkness, watching the cracks in their window spread under unimaginable pressure. They landed on the seafloor of the world and — impossibly — saw a fish swim by, life thriving in a place scientists said nothing could survive. More humans have walked on the Moon than have reached the deepest point of our own ocean. Most of our own planet is still unexplored."}
+];
+const p=pick(places);
+document.getElementById('placeCard').innerHTML=`
+  <span class="badge">🗺 Place of the Day</span>
+  <div style="display:flex;gap:16px;align-items:flex-start;margin-top:14px">
+    <div class="place-img">${p.e}</div>
+    <div>
+      <h3 style="font-size:1.25rem">${p.n}</h3>
+      <div class="src">${p.where}</div>
+      <div class="fact"><b>The fact:</b> ${p.fact}</div>
+      <div class="story-tell"><b style="color:var(--gold)">The story:</b> ${p.story}</div>
+      <div class="more">📍 New place from the Explorer's Log every day — 7 wonders in rotation.</div>
+    </div>
+  </div>`;
+</script>
+</body>
+</html>
